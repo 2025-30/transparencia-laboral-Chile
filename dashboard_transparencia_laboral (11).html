@@ -1,0 +1,1826 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transparencia Laboral Chile — Acoso y Maltrato en el Sector Público</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --ink: #1a1a1a;
+  --ink-2: #4a4a4a;
+  --ink-3: #888;
+  --paper: #f9f7f4;
+  --paper-2: #f1ede8;
+  --paper-3: #e8e2da;
+  --red: #c0392b;
+  --red-bg: #fdf0ee;
+  --amber: #b45309;
+  --amber-bg: #fef9ed;
+  --green: #166534;
+  --green-bg: #f0fdf4;
+  --blue: #1e3a8a;
+  --blue-bg: #eff6ff;
+  --accent: #c0392b;
+  --border: rgba(0,0,0,0.08);
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ── NAV ── */
+nav {
+  background: var(--ink);
+  color: #fff;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  list-style: none;
+}
+.nav-links a {
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  transition: color .2s;
+}
+.nav-links a:hover { color: #fff; }
+.nav-badge {
+  background: var(--accent);
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--ink);
+  color: #fff;
+  padding: 4rem 2rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 79px,
+    rgba(255,255,255,0.03) 79px,
+    rgba(255,255,255,0.03) 80px
+  );
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+.hero-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+  max-width: 680px;
+}
+.hero-sub {
+  color: rgba(255,255,255,0.55);
+  font-size: 14px;
+  max-width: 540px;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+.hero-stats {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.hero-stat {}
+.hero-stat-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px;
+  color: #fff;
+  line-height: 1;
+}
+.hero-stat-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  margin-top: 3px;
+  letter-spacing: 0.04em;
+}
+
+/* ── LAYOUT ── */
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+}
+.section { margin-bottom: 3rem; }
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.section-meta {
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+/* ── CARDS ── */
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+/* ── KPIs ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 12px;
+}
+.kpi-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  transition: transform .2s;
+}
+.kpi-card:hover { transform: translateY(-2px); }
+.kpi-label {
+  font-size: 11px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+.kpi-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.kpi-num.red { color: var(--red); }
+.kpi-num.amber { color: var(--amber); }
+.kpi-num.green { color: var(--green); }
+.kpi-sub {
+  font-size: 11px;
+  color: var(--ink-3);
+}
+.kpi-bar {
+  height: 3px;
+  background: var(--paper-3);
+  border-radius: 2px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+.kpi-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1s ease;
+}
+
+/* ── CHARTS ROW ── */
+.charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.chart-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow);
+}
+.chart-title {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: var(--ink);
+}
+.chart-sub {
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-bottom: 14px;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--ink-2);
+}
+.legend-dot {
+  width: 8px; height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ── FILTERS ── */
+.filters-bar {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+.filter-label {
+  font-size: 11px;
+  color: var(--ink-3);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+select, input[type="text"] {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  outline: none;
+  transition: border-color .2s;
+}
+select:focus, input:focus {
+  border-color: var(--ink-2);
+}
+.btn-reset {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: all .2s;
+  letter-spacing: 0.02em;
+}
+.btn-reset:hover {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+.search-wrap {
+  position: relative;
+  margin-left: auto;
+}
+.search-wrap input {
+  padding-left: 28px;
+  width: 200px;
+}
+.search-icon {
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* ── HEATMAP TABLE ── */
+.heatmap-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.heatmap-table thead th {
+  text-align: left;
+  padding: 10px 16px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--border);
+  background: var(--paper);
+  white-space: nowrap;
+}
+.heatmap-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background .15s;
+  cursor: default;
+}
+.heatmap-table tbody tr:last-child { border-bottom: none; }
+.heatmap-table tbody tr:hover { background: var(--paper); }
+.heatmap-table td {
+  padding: 11px 16px;
+  vertical-align: middle;
+}
+.inst-name {
+  font-weight: 500;
+  font-size: 12px;
+}
+.inst-sector {
+  font-size: 10px;
+  color: var(--ink-3);
+  margin-top: 1px;
+}
+.heat-cell {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  min-width: 38px;
+  text-align: center;
+}
+.heat-critical { background: #fee2e2; color: #991b1b; }
+.heat-high     { background: #fed7aa; color: #9a3412; }
+.heat-med      { background: #fef9c3; color: #854d0e; }
+.heat-low      { background: #dcfce7; color: #166534; }
+.heat-none     { background: var(--paper-2); color: var(--ink-3); }
+.bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bar-bg {
+  flex: 1;
+  height: 5px;
+  background: var(--paper-3);
+  border-radius: 3px;
+  overflow: hidden;
+  max-width: 80px;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.8s ease;
+}
+.estado-badge {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.estado-completo { background: var(--green-bg); color: var(--green); }
+.estado-parcial  { background: var(--amber-bg); color: var(--amber); }
+.estado-pendiente{ background: var(--blue-bg);  color: var(--blue); }
+
+/* ── RECURSOS ── */
+.recursos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 14px;
+}
+.recurso-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform .2s, border-color .2s;
+  text-decoration: none;
+  color: inherit;
+}
+.recurso-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--ink-2);
+}
+.recurso-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.recurso-title {
+  font-size: 13px;
+  font-weight: 500;
+}
+.recurso-org {
+  font-size: 10px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+}
+.recurso-desc {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.55;
+  flex: 1;
+}
+.recurso-link {
+  font-size: 11px;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+}
+
+/* ── ALERT BANNER ── */
+.alert {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 10px 10px 0;
+  padding: 1rem 1.25rem;
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+.alert strong { color: var(--ink); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink);
+  color: rgba(255,255,255,0.45);
+  padding: 2rem;
+  font-size: 11px;
+  line-height: 1.8;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+footer strong { color: rgba(255,255,255,0.8); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  .charts-row { grid-template-columns: 1fr; }
+  .recursos-grid { grid-template-columns: 1fr; }
+  nav .nav-links { display: none; }
+}
+@media (max-width: 480px) {
+  .kpi-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 26px; }
+}
+
+/* ── ENTRY ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.fade-up { animation: fadeUp 0.5s ease both; }
+.fade-up:nth-child(1){animation-delay:.05s}
+.fade-up:nth-child(2){animation-delay:.1s}
+.fade-up:nth-child(3){animation-delay:.15s}
+.fade-up:nth-child(4){animation-delay:.2s}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <span class="nav-dot"></span>
+    Transparencia Laboral Chile
+  </div>
+  <ul class="nav-links">
+    <li><a href="#sumarios">Sumarios</a></li>
+    <li><a href="#instituciones">Instituciones</a></li>
+    <li><a href="#sanciones">Sanciones</a></li>
+    <li><a href="#recursos">Recursos</a></li>
+    <li><span class="nav-badge">Beta</span></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">Proyecto de transparencia pública · Chile</div>
+    <h1>Acoso y maltrato laboral en el sector público</h1>
+    <p class="hero-sub">
+      Datos agregados por institución sobre sumarios administrativos, tipos de conducta y sanciones.
+      Información obtenida vía Ley 20.285 y estadísticas DT / SUSESO.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">363</div>
+        <div class="hero-stat-label">sumarios 2022–2025</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">30%</div>
+        <div class="hero-stat-label">sobreseídos sin sanción</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">44.212</div>
+        <div class="hero-stat-label">denuncias Ley Karin (ago'24–jun'25)</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">66%</div>
+        <div class="hero-stat-label">de denunciantes son mujeres</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ALERTA METODOLÓGICA -->
+  <div class="alert">
+    <strong>Nota metodológica:</strong> Todos los datos se publican de forma <strong>agregada por institución</strong>.
+    Nunca se incluyen nombres ni identificadores personales de personas denunciadas sin resolución firme.
+    Marco legal: Ley 20.285 (Transparencia) · Ley 21.643 (Ley Karin) · Ley 21.719 (Protección de datos).
+  </div>
+
+  <!-- POR QUÉ IMPORTA EL SECTOR PÚBLICO -->
+  <div class="section" style="padding-bottom:0">
+    <div style="background:#1a1a1a;color:#f5f0e8;border-radius:12px;padding:28px 32px">
+      <div style="font-size:11px;letter-spacing:.1em;color:#aaa;margin-bottom:10px">CONTEXTO · POR QUÉ ESTE PROYECTO</div>
+      <div style="font-size:20px;font-family:'DM Serif Display',serif;margin-bottom:20px;line-height:1.3">
+        La brecha entre sectores no refleja menor prevalencia en el sector público — refleja menor transparencia.
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px">
+        <div style="border-left:2px solid #c0392b;padding-left:16px">
+          <div style="font-size:13px;font-weight:600;margin-bottom:6px;color:#f5f0e8">Datos fragmentados</div>
+          <div style="font-size:12px;color:#bbb;line-height:1.6">El Estado tiene más de 800 servicios públicos. Los 5.214 casos conocidos provienen solo de 204 que reportaron voluntariamente. El resto no existe en ninguna estadística.</div>
+        </div>
+        <div style="border-left:2px solid #b45309;padding-left:16px">
+          <div style="font-size:13px;font-weight:600;margin-bottom:6px;color:#f5f0e8">Inamovilidad y miedo</div>
+          <div style="font-size:12px;color:#bbb;line-height:1.6">En el sector público la renovación de contrata depende del jefe directo. Esa asimetría de poder suprime denuncias. Lo que aparece en los datos es probablemente la punta del iceberg.</div>
+        </div>
+        <div style="border-left:2px solid #888;padding-left:16px">
+          <div style="font-size:13px;font-weight:600;margin-bottom:6px;color:#f5f0e8">Sin fiscalizador externo</div>
+          <div style="font-size:12px;color:#bbb;line-height:1.6">El sector privado tiene a la DT como árbitro externo con jurisdicción directa. El sector público investiga sus propios casos internamente, sin equivalente fiscalizador independiente.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="section" id="sumarios">
+    <div class="section-header">
+      <div class="section-title">Resumen nacional</div>
+      <div class="section-meta">Sector público · 2022–2025</div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-card fade-up">
+        <div class="kpi-label">TOTAL SUMARIOS</div>
+        <div class="kpi-num">363</div>
+        <div class="kpi-sub">subsecretarías y servicios</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:100%;background:#1a1a1a"></div></div>
+      </div>
+      <div class="kpi-card fade-up">
+        <div class="kpi-label">SOBRESEÍDOS</div>
+        <div class="kpi-num red">108</div>
+        <div class="kpi-sub">30% del total cerrado</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:30%;background:#c0392b"></div></div>
+      </div>
+      <div class="kpi-card fade-up">
+        <div class="kpi-label">EN TRAMITACIÓN</div>
+        <div class="kpi-num amber">89</div>
+        <div class="kpi-sub">procesos abiertos</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:24%;background:#b45309"></div></div>
+      </div>
+      <div class="kpi-card fade-up">
+        <div class="kpi-label">CON SANCIÓN EFECTIVA</div>
+        <div class="kpi-num green">44</div>
+        <div class="kpi-sub">12% del total</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:12%;background:#166534"></div></div>
+      </div>
+    </div>
+
+    <!-- KPI TASA NORMALIZADA -->
+    <div style="margin-top:16px;background:#fff8f0;border:1px solid #f5e6d0;border-radius:10px;padding:18px 24px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+      <div style="text-align:center;padding:0 20px;border-right:1px solid #e8d5bb">
+        <div style="font-size:10px;letter-spacing:.08em;color:var(--ink-3);margin-bottom:4px">TASA SECTOR PÚBLICO</div>
+        <div style="font-size:28px;font-weight:600;color:#c0392b">6,5</div>
+        <div style="font-size:11px;color:var(--ink-3)">denuncias por cada 1.000 funcionarios</div>
+        <div style="font-size:10px;color:#888;margin-top:4px">~800.000 funcionarios públicos</div>
+      </div>
+      <div style="text-align:center;padding:0 20px;border-right:1px solid #e8d5bb">
+        <div style="font-size:10px;letter-spacing:.08em;color:var(--ink-3);margin-bottom:4px">TASA SECTOR PRIVADO</div>
+        <div style="font-size:28px;font-weight:600;color:#1a1a1a">6,3</div>
+        <div style="font-size:11px;color:var(--ink-3)">denuncias por cada 1.000 trabajadores</div>
+        <div style="font-size:10px;color:#888;margin-top:4px">~7.000.000 trabajadores privados</div>
+      </div>
+      <div style="text-align:center;padding:0 20px">
+        <div style="font-size:10px;letter-spacing:.08em;color:var(--ink-3);margin-bottom:4px">CONCLUSIÓN</div>
+        <div style="font-size:14px;font-weight:600;color:#c0392b;line-height:1.4;margin-top:6px">El sector público denuncia a tasa similar al privado — con datos incompletos</div>
+        <div style="font-size:10px;color:#888;margin-top:6px">Si los 600+ servicios que no reportaron tuvieran tasas similares, el total real superaría los 20.000 casos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRÁFICOS FILA 1 -->
+  <div class="section">
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-title">Sumarios por tipo de conducta</div>
+        <div class="chart-sub">Sector público · 2022–2025</div>
+        <div class="legend">
+          <div class="legend-item"><span class="legend-dot" style="background:#1a1a1a"></span>Acoso laboral 48%</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#c0392b"></span>Acoso sexual 28%</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#b45309"></span>Maltrato 18%</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#888"></span>Mixta 6%</div>
+        </div>
+        <div style="position:relative;height:220px"><canvas id="c-tipo"></canvas></div>
+        <div id="insight-tipo" style="margin-top:10px;font-size:11px;color:#666;line-height:1.6;min-height:36px;padding:8px 10px;background:#f8f5f0;border-radius:6px;opacity:0.6;transition:opacity .2s">Pasa el cursor sobre un segmento para ver el análisis</div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Evolución anual</div>
+        <div class="chart-sub">Nuevos sumarios vs. cerrados con sanción</div>
+        <div class="legend">
+          <div class="legend-item"><span class="legend-dot" style="background:#1a1a1a"></span>Nuevos sumarios</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#c0392b"></span>Con sanción</div>
+        </div>
+        <div style="position:relative;height:220px"><canvas id="c-evol"></canvas></div>
+        <div id="insight-evol" style="margin-top:10px;font-size:11px;color:#666;line-height:1.6;min-height:36px;padding:8px 10px;background:#f8f5f0;border-radius:6px;opacity:0.6;transition:opacity .2s">Pasa el cursor sobre una barra para ver el análisis</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRÁFICOS FILA 2 -->
+  <div class="section" id="sanciones">
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-title">Tipos de sanciones aplicadas</div>
+        <div class="chart-sub">Sobre sumarios cerrados con resolución</div>
+        <div style="position:relative;height:230px"><canvas id="c-sancion"></canvas></div>
+        <div id="insight-sancion" style="margin-top:10px;font-size:11px;color:#666;line-height:1.6;min-height:36px;padding:8px 10px;background:#f8f5f0;border-radius:6px;opacity:0.6;transition:opacity .2s">Pasa el cursor sobre una barra para ver el análisis</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRAFICO KARIN COMPARATIVO ancho completo -->
+  <div class="section">
+    <div class="chart-card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:4px">
+        <div>
+          <div class="chart-title">Denuncias Ley Karin — sector p&#250;blico vs. privado</div>
+          <div class="chart-sub">Ago 2024 – Jun 2025 &middot; denuncias mensuales &middot; Fuentes: Servicio Civil, Subprev, DT</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button id="btn-pub" onclick="mostrarSector('publico')" style="font-family:inherit;font-size:11px;padding:5px 12px;border-radius:6px;border:1px solid #1a1a1a;background:#1a1a1a;color:#fff;cursor:pointer;transition:all .2s">Sector p&#250;blico</button>
+          <button id="btn-priv" onclick="mostrarSector('privado')" style="font-family:inherit;font-size:11px;padding:5px 12px;border-radius:6px;border:1px solid #ddd;background:transparent;color:#888;cursor:pointer;transition:all .2s">Sector privado</button>
+          <button id="btn-ambos" onclick="mostrarSector('ambos')" style="font-family:inherit;font-size:11px;padding:5px 12px;border-radius:6px;border:1px solid #ddd;background:transparent;color:#888;cursor:pointer;transition:all .2s">Comparar ambos</button>
+        </div>
+      </div>
+      <div id="legend-karin" class="legend" style="margin-bottom:14px"></div>
+      <div style="position:relative;height:260px"><canvas id="c-karin"></canvas></div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:var(--paper);border-radius:8px;padding:12px 14px">
+          <div style="font-size:10px;letter-spacing:.06em;color:var(--ink-3);margin-bottom:6px">SECTOR P&#218;BLICO &middot; ago&ndash;dic 2024</div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap">
+            <div><div style="font-size:18px;font-weight:500">5.214</div><div style="font-size:10px;color:var(--ink-3)">total denuncias</div></div>
+            <div><div style="font-size:18px;font-weight:500">3.376</div><div style="font-size:10px;color:var(--ink-3)">acoso laboral</div></div>
+            <div><div style="font-size:18px;font-weight:500">1.666</div><div style="font-size:10px;color:var(--ink-3)">violencia laboral</div></div>
+            <div><div style="font-size:18px;font-weight:500">172</div><div style="font-size:10px;color:var(--ink-3)">acoso sexual</div></div>
+          </div>
+          <div style="font-size:10px;color:var(--ink-3);margin-top:6px">Fuente: Servicio Civil &middot; 204 servicios &middot; Comisi&#243;n Mujeres C&#225;mara, ene 2025</div>
+        </div>
+        <div style="background:var(--paper);border-radius:8px;padding:12px 14px">
+          <div style="font-size:10px;letter-spacing:.06em;color:var(--ink-3);margin-bottom:6px">SECTOR PRIVADO &middot; ago 2024 &ndash; jun 2025</div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap">
+            <div><div style="font-size:18px;font-weight:500">44.212</div><div style="font-size:10px;color:var(--ink-3)">total denuncias</div></div>
+            <div><div style="font-size:18px;font-weight:500">16.071</div><div style="font-size:10px;color:var(--ink-3)">acoso laboral</div></div>
+            <div><div style="font-size:18px;font-weight:500">1.231</div><div style="font-size:10px;color:var(--ink-3)">violencia laboral</div></div>
+            <div><div style="font-size:18px;font-weight:500">1.212</div><div style="font-size:10px;color:var(--ink-3)">acoso sexual</div></div>
+          </div>
+          <div style="font-size:10px;color:var(--ink-3);margin-top:6px">Fuente: Direcci&#243;n del Trabajo &middot; informe estad&#237;stico semestral Ley Karin</div>
+        </div>
+      </div>
+      <div style="margin-top:14px;padding:12px 16px;background:#fff8f0;border-left:3px solid #c0392b;border-radius:0 6px 6px 0">
+        <span style="font-size:12px;color:#1a1a1a;line-height:1.6">
+          <strong>La diferencia de escala no es lo que parece.</strong> Normalizado por número de trabajadores, el sector público denuncia a una tasa equivalente al privado — con datos que cubren menos de un tercio de los servicios del Estado. Si los 600+ servicios que no reportaron tuvieran tasas similares, el total real del sector público superaría los <strong>20.000 casos</strong>.
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOS TABLAS: SUMARIOS HISTÓRICOS + LEY KARIN -->
+  <div class="section" id="instituciones">
+    <div class="section-header">
+      <div class="section-title">Datos por institución</div>
+      <div class="section-meta">Dos fuentes, dos períodos</div>
+    </div>
+
+    <!-- TAB SWITCHER -->
+    <div style="display:flex;gap:0;margin-bottom:20px;border:1px solid var(--border);border-radius:8px;overflow:hidden;width:fit-content">
+      <button id="tab-sumarios" onclick="switchTab('sumarios')"
+        style="font-family:inherit;font-size:12px;padding:9px 20px;border:none;background:#1a1a1a;color:#fff;cursor:pointer;transition:all .2s">
+        Sumarios históricos · 2022–2025
+      </button>
+      <button id="tab-karin" onclick="switchTab('karin')"
+        style="font-family:inherit;font-size:12px;padding:9px 20px;border:none;background:transparent;color:#888;cursor:pointer;transition:all .2s;border-left:1px solid var(--border)">
+        Ley Karin · ago–dic 2024 ⚠️ datos parciales
+      </button>
+    </div>
+
+    <!-- FILTROS SUMARIOS -->
+    <div id="filtros-sumarios" class="filters-bar">
+      <span class="filter-label">FILTRAR</span>
+      <div class="filter-group">
+        <select id="f-riesgo" onchange="filtrarTabla()">
+          <option value="">Todos los niveles</option>
+          <option value="critical">Crítico</option>
+          <option value="high">Alto</option>
+          <option value="med">Medio</option>
+          <option value="low">Bajo</option>
+        </select>
+        <select id="f-estado" onchange="filtrarTabla()">
+          <option value="">Todos los estados</option>
+          <option value="completo">Datos completos</option>
+          <option value="parcial">Datos parciales</option>
+          <option value="pendiente">Pendiente</option>
+        </select>
+        <button class="btn-reset" onclick="resetFiltros()">Limpiar</button>
+      </div>
+      <div class="search-wrap">
+        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="buscar" placeholder="Buscar institución..." oninput="filtrarTabla()">
+      </div>
+    </div>
+
+    <!-- FILTROS KARIN -->
+    <div id="filtros-karin" class="filters-bar" style="display:none">
+      <div class="search-wrap">
+        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="buscar-karin" placeholder="Buscar institución..." oninput="filtrarKarin()">
+      </div>
+    </div>
+
+    <!-- TABLA SUMARIOS -->
+    <div id="panel-sumarios" class="card" style="overflow:hidden">
+      <table class="heatmap-table">
+        <thead>
+          <tr>
+            <th style="width:28%">INSTITUCIÓN</th>
+            <th>SUMARIOS</th>
+            <th>SOBRESEÍDOS</th>
+            <th>CON SANCIÓN</th>
+            <th>TASA SANCIÓN</th>
+            <th>NIVEL</th>
+            <th>DATOS</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- TABLA KARIN -->
+    <div id="panel-karin" style="display:none">
+      <div style="background:#fffbeb;border:1px solid #f59e0b;border-radius:8px;padding:12px 16px;margin-bottom:12px;display:flex;align-items:flex-start;gap:12px">
+        <span style="font-size:18px;line-height:1">⚠️</span>
+        <div>
+          <div style="font-size:12px;font-weight:600;color:#92400e;margin-bottom:3px">Datos parciales — 2025 no disponible públicamente</div>
+          <div style="font-size:11px;color:#78350f;line-height:1.6">
+            Los datos por ministerio corresponden solo al período agosto–diciembre 2024 (204 de 800+ servicios).
+            El Servicio Civil no ha publicado un desglose equivalente para 2025.
+            <strong>Solicitud de transparencia enviada — pendiente de respuesta.</strong>
+            Esta tabla se actualizará cuando se reciban los datos.
+          </div>
+        </div>
+      </div>
+      <div class="card" style="overflow:hidden">
+      <div style="padding:10px 16px 0;background:#fff8f0;border-bottom:1px solid var(--border)">
+        <span style="font-size:11px;color:#888">Fuente: Servicio Civil · presentado ante Comisión de Mujeres de la Cámara · enero 2025 · 204 de 800+ servicios reportaron</span>
+      </div>
+      <table class="heatmap-table">
+        <thead>
+          <tr>
+            <th style="width:32%">INSTITUCIÓN</th>
+            <th>TOTAL DENUNCIAS</th>
+            <th>ACOSO LABORAL</th>
+            <th>VIOLENCIA LABORAL</th>
+            <th>ACOSO SEXUAL</th>
+            <th>% DEL TOTAL PÚBLICO</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-karin"></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div style="margin-top:10px;font-size:11px;color:#aaa;text-align:right" id="nota-fuente">
+      Sumarios: Solicitudes Ley de Transparencia · 2022–2025
+    </div>
+  </div>
+
+  <!-- EMBUDO + CONFLICTO DE INTERÉS -->
+  <div class="section">
+    <div style="background:#1a1a1a;color:#f5f0e8;border-radius:12px;padding:28px 32px;margin-bottom:24px">
+      <div style="font-size:11px;letter-spacing:.1em;color:#aaa;margin-bottom:8px">¿POR QUÉ HAY TAN POCAS SANCIONES?</div>
+      <div style="font-size:19px;font-family:'DM Serif Display',serif;line-height:1.3;margin-bottom:6px">
+        De cada 100 denuncias Ley Karin en el sector público, solo ~5 terminan en sanción efectiva.
+      </div>
+      <div style="font-size:12px;color:#bbb">En Ministerio de Salud: 3.290 denuncias → estimado ~165 con sanción.</div>
+    </div>
+
+    <div class="charts-row">
+      <!-- Embudo -->
+      <div class="chart-card" style="flex:1">
+        <div class="chart-title">El embudo de la denuncia</div>
+        <div class="chart-sub">Sector público · cada etapa filtra casos</div>
+        <div style="margin-top:16px">
+          <div style="margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span style="font-size:12px;font-weight:500">Denuncias ingresadas</span>
+              <span style="font-size:16px;font-weight:600;color:#c0392b">100</span>
+            </div>
+            <div style="background:#f0ebe3;border-radius:4px;height:8px"><div style="width:100%;background:#c0392b;height:8px;border-radius:4px"></div></div>
+          </div>
+          <div style="margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span style="font-size:12px">Pasan admisibilidad</span>
+              <span style="font-size:15px;font-weight:500;color:#b45309">~60</span>
+            </div>
+            <div style="background:#f0ebe3;border-radius:4px;height:8px"><div style="width:60%;background:#b45309;height:8px;border-radius:4px"></div></div>
+          </div>
+          <div style="margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span style="font-size:12px">Llegan a informe</span>
+              <span style="font-size:15px;font-weight:500;color:#b45309">~40</span>
+            </div>
+            <div style="background:#f0ebe3;border-radius:4px;height:8px"><div style="width:40%;background:#b45309;height:8px;border-radius:4px"></div></div>
+          </div>
+          <div style="margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span style="font-size:12px">Llegan a sumario</span>
+              <span style="font-size:15px;font-weight:500;color:#666">~15</span>
+            </div>
+            <div style="background:#f0ebe3;border-radius:4px;height:8px"><div style="width:15%;background:#888;height:8px;border-radius:4px"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span style="font-size:12px;font-weight:500">Con sanción efectiva</span>
+              <span style="font-size:16px;font-weight:600;color:#166534">~5</span>
+            </div>
+            <div style="background:#f0ebe3;border-radius:4px;height:8px"><div style="width:5%;background:#166534;height:8px;border-radius:4px"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conflicto de interés -->
+      <div class="chart-card" style="flex:1.4">
+        <div class="chart-title">Por qué se pierden en el camino</div>
+        <div class="chart-sub">Quién decide en cada etapa · base legal · problema estructural</div>
+        <div style="margin-top:14px;display:flex;flex-direction:column;gap:7px">
+
+          <div style="display:grid;grid-template-columns:3fr 4fr 4fr;gap:5px">
+            <div style="font-size:10px;font-weight:600;letter-spacing:.06em;color:#aaa;padding:0 8px">ETAPA</div>
+            <div style="font-size:10px;font-weight:600;letter-spacing:.06em;color:#aaa;padding:0 8px">QUIÉN DECIDE · BASE LEGAL</div>
+            <div style="font-size:10px;font-weight:600;letter-spacing:.06em;color:#aaa;padding:0 8px">PROBLEMA</div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:3fr 4fr 4fr;gap:5px;align-items:start">
+            <div style="padding:9px 10px;background:#f8f5f0;border-radius:6px">
+              <div style="font-size:12px;font-weight:600">Admisibilidad</div>
+              <div style="font-size:10px;color:#888;margin-top:2px">¿Se investiga?</div>
+            </div>
+            <div style="padding:9px 10px;background:#f8f5f0;border-radius:6px">
+              <div style="font-size:12px">Autoridad del servicio</div>
+              <div style="font-size:10px;color:#888;margin-top:2px">Puede desestimar con resolución fundada · Art. 119 Estatuto Adm.</div>
+            </div>
+            <div style="padding:9px 10px;background:#fff0ee;border-radius:6px;border-left:2px solid #c0392b">
+              <div style="font-size:12px;color:#c0392b;font-weight:500">Discrecional</div>
+              <div style="font-size:10px;color:#888;margin-top:2px">121 desestimadas sin investigar · ago–dic 2024</div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:3fr 4fr 4fr;gap:5px;align-items:start">
+            <div style="padding:9px 10px;background:#f8f5f0;border-radius:6px">
+              <div style="font-size:12px;font-weight:600">Investigación</div>
+              <div style="font-size:10px;color:#888;margin-top:2px">Fiscal designado</div>
+            </div>
+            <div style="padding:9px 10px;background:#f8f5f0;border-radius:6px">
+              <div style="font-size:12px">Funcionario del mismo servicio</div>
+              <div style="font-size:10px;color:#888;margin-top:2px">Preferentemente con formación en género · Art. 119 inc. 4 EA</div>
+            </div>
+            <div style="padding:9px 10px;background:#fff0ee;border-radius:6px;border-left:2px solid #c0392b">
+              <div style="font-size:12px;color:#c0392b;font-weight:500">Sin independencia real</div>
+              <div style="font-size:10px;color:#888;margin-top:2px">Plazos no son fatales · dictámenes CGR históricos</div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:3fr 4fr 4fr;gap:5px;align-items:start">
+            <div style="padding:9px 10px;background:#f8f5f0;border-radius:6px">
+              <div style="font-size:12px;font-weight:600">Apertura sumario</div>
+              <div style="font-size:10px;color:#888;margin-top:2px">¿Qué sanción?</div>
+            </div>
+            <div style="padding:9px 10px;background:#f8f5f0;border-radius:6px">
+              <div style="font-size:12px">Jefatura del servicio</div>
+              <div style="font-size:10px;color:#888;margin-top:2px">No obligada a seguir al fiscal · sanción puede ser "cualquier medida" · Dictamen CGR E30538/2025</div>
+            </div>
+            <div style="padding:9px 10px;background:#fff0ee;border-radius:6px;border-left:2px solid #c0392b">
+              <div style="font-size:12px;color:#c0392b;font-weight:500">Conflicto jerárquico</div>
+              <div style="font-size:10px;color:#888;margin-top:2px">Retroceso reconocido por especialistas en Ley Karin</div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:3fr 4fr 4fr;gap:5px;align-items:start">
+            <div style="padding:9px 10px;background:#f8f5f0;border-radius:6px">
+              <div style="font-size:12px;font-weight:600">Si acusado es la jefatura</div>
+              <div style="font-size:10px;color:#888;margin-top:2px">Caso especial</div>
+            </div>
+            <div style="padding:9px 10px;background:#f8f5f0;border-radius:6px">
+              <div style="font-size:12px">Municipios → CGR en 3 días hábiles</div>
+              <div style="font-size:10px;color:#888;margin-top:2px">Art. 126 Ley 18.883 · Ministerios: no hay equivalente obligatorio</div>
+            </div>
+            <div style="padding:9px 10px;background:#fff0ee;border-radius:6px;border-left:2px solid #c0392b">
+              <div style="font-size:12px;color:#c0392b;font-weight:500">Vacío legal crítico</div>
+              <div style="font-size:10px;color:#888;margin-top:2px">Municipios protegidos · ministerios sin fiscalizador externo</div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:3fr 4fr 4fr;gap:5px;align-items:start">
+            <div style="padding:9px 10px;background:#e8f5ee;border-radius:6px">
+              <div style="font-size:12px;font-weight:600;color:#166534">Recurso ante CGR</div>
+              <div style="font-size:10px;color:#888;margin-top:2px">Opción del denunciante</div>
+            </div>
+            <div style="padding:9px 10px;background:#e8f5ee;border-radius:6px">
+              <div style="font-size:12px">20 días desde notificación</div>
+              <div style="font-size:10px;color:#888;margin-top:2px">Art. 140 inc. final Estatuto Adm. · solo si fue notificado/a formalmente</div>
+            </div>
+            <div style="padding:9px 10px;background:#e8f5ee;border-radius:6px;border-left:2px solid #166534">
+              <div style="font-size:12px;color:#166534;font-weight:500">Barrera práctica alta</div>
+              <div style="font-size:10px;color:#888;margin-top:2px">Requiere energía, tiempo y conocimiento legal</div>
+            </div>
+          </div>
+
+          <!-- Lo que no existe -->
+          <div style="margin-top:8px;background:#1a1a1a;border-radius:8px;padding:14px 16px">
+            <div style="font-size:10px;font-weight:600;letter-spacing:.08em;color:#aaa;margin-bottom:10px">LO QUE NO EXISTE Y DEBERÍA</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;gap:10px;align-items:flex-start">
+                <div style="width:18px;height:18px;border-radius:50%;background:#c0392b;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px">
+                  <svg width="8" height="8" viewBox="0 0 8 8"><line x1="2" y1="2" x2="6" y2="6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><line x1="6" y1="2" x2="2" y2="6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </div>
+                <div>
+                  <div style="font-size:12px;font-weight:500;color:#f5f0e8">Plazo máximo obligatorio para decidir tras recibir el informe</div>
+                  <div style="font-size:10px;color:#888;margin-top:2px">La autoridad puede postergar indefinidamente sin consecuencia legal · los plazos actuales no son fatales según CGR</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start">
+                <div style="width:18px;height:18px;border-radius:50%;background:#c0392b;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px">
+                  <svg width="8" height="8" viewBox="0 0 8 8"><line x1="2" y1="2" x2="6" y2="6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><line x1="6" y1="2" x2="2" y2="6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </div>
+                <div>
+                  <div style="font-size:12px;font-weight:500;color:#f5f0e8">Organismo externo que revise la decisión de no abrir sumario</div>
+                  <div style="font-size:10px;color:#888;margin-top:2px">La CGR solo interviene si el denunciante recurre activamente · no hay fiscalización de oficio en ministerios</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start">
+                <div style="width:18px;height:18px;border-radius:50%;background:#c0392b;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px">
+                  <svg width="8" height="8" viewBox="0 0 8 8"><line x1="2" y1="2" x2="6" y2="6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><line x1="6" y1="2" x2="2" y2="6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </div>
+                <div>
+                  <div style="font-size:12px;font-weight:500;color:#f5f0e8">Obligación de fundamentar por escrito la decisión de no actuar</div>
+                  <div style="font-size:10px;color:#888;margin-top:2px">La desestimación requiere resolución fundada, pero sin control externo esa fundamentación no es verificable</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:6px;padding:9px 12px;border:1px dashed #ddd;border-radius:6px;font-size:10px;color:#999;line-height:1.7">
+            Fuentes: Estatuto Administrativo (Ley 18.834) · DS N°21/2024 (Regl. Ley Karin) · Dictamen CGR E30538/2025 · Dictamen CGR E523936/2024
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LLAMADA A LA ACCIÓN -->
+  <div class="section" id="accion">
+    <div style="background:#1a1a1a;color:#f5f0e8;border-radius:12px;padding:32px 36px">
+
+      <div style="font-size:11px;letter-spacing:.1em;color:#aaa;margin-bottom:10px">ÚSALO · DIFÚNDELO · AMPLÍALO</div>
+      <div style="font-size:22px;font-family:'DM Serif Display',serif;line-height:1.3;margin-bottom:8px;max-width:560px">
+        Este dashboard es un bien público. Si trabajas en medios, en un sindicato o en una organización de derechos laborales — úsalo, cítalo, difúndelo.
+      </div>
+      <div style="font-size:13px;color:#bbb;margin-bottom:28px;max-width:500px;line-height:1.7">
+        Los datos son verificables, las fuentes son públicas, y el código es abierto. No se necesita permiso para usarlo.
+      </div>
+
+      <!-- Dos columnas -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+
+        <!-- Columna 1: Compartir -->
+        <div style="background:rgba(255,255,255,0.06);border-radius:10px;padding:20px 22px">
+          <div style="font-size:11px;letter-spacing:.08em;color:#aaa;margin-bottom:10px">CAPA 1 · DIFUNDIR</div>
+          <div style="font-size:14px;font-weight:500;margin-bottom:8px">Comparte este dashboard</div>
+          <div style="font-size:12px;color:#bbb;line-height:1.6;margin-bottom:16px">
+            Cada vez que se comparte, llega a alguien que puede usarlo para presionar por los cambios legales que faltan.
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button onclick="copiarLink()" id="btn-copiar"
+              style="font-family:inherit;font-size:12px;padding:9px 16px;border-radius:6px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#f5f0e8;cursor:pointer;text-align:left;transition:all .2s"
+              onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">
+              📋 Copiar enlace del dashboard
+            </button>
+            <a href="https://twitter.com/intent/tweet?text=Dashboard%20de%20transparencia%20laboral%20Chile%3A%20datos%20reales%20sobre%20acoso%20en%20el%20sector%20p%C3%BAblico.%20De%20cada%20100%20denuncias%20Ley%20Karin%2C%20solo%20~5%20terminan%20en%20sanci%C3%B3n.&url=https%3A%2F%2Fgithub.com%2F2025-30"
+              target="_blank"
+              style="font-family:inherit;font-size:12px;padding:9px 16px;border-radius:6px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#f5f0e8;cursor:pointer;text-decoration:none;transition:all .2s;display:block"
+              onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">
+              𝕏 Compartir en X / Twitter
+            </a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fgithub.com%2F2025-30"
+              target="_blank"
+              style="font-family:inherit;font-size:12px;padding:9px 16px;border-radius:6px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#f5f0e8;cursor:pointer;text-decoration:none;transition:all .2s;display:block"
+              onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">
+              in Compartir en LinkedIn
+            </a>
+          </div>
+        </div>
+
+        <!-- Columna 2: Sumar datos -->
+        <div style="background:rgba(255,255,255,0.06);border-radius:10px;padding:20px 22px">
+          <div style="font-size:11px;letter-spacing:.08em;color:#aaa;margin-bottom:10px">CAPA 2 · AMPLIAR</div>
+          <div style="font-size:14px;font-weight:500;margin-bottom:8px">¿Tu institución no aparece?</div>
+          <div style="font-size:12px;color:#bbb;line-height:1.6;margin-bottom:16px">
+            Cada solicitud de transparencia que se envía amplía el dashboard. Aquí están las plantillas listas para copiar y enviar al Portal de Transparencia.
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button onclick="mostrarPlantilla('A')"
+              style="font-family:inherit;font-size:12px;padding:9px 16px;border-radius:6px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#f5f0e8;cursor:pointer;text-align:left;transition:all .2s"
+              onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">
+              📄 Plantilla A — sumarios por institución
+            </button>
+            <button onclick="mostrarPlantilla('B')"
+              style="font-family:inherit;font-size:12px;padding:9px 16px;border-radius:6px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#f5f0e8;cursor:pointer;text-align:left;transition:all .2s"
+              onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">
+              📄 Plantilla B — continuidad en el cargo post-sanción
+            </button>
+            <a href="https://portaltransparencia.cl" target="_blank"
+              style="font-family:inherit;font-size:12px;padding:9px 16px;border-radius:6px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#f5f0e8;cursor:pointer;text-decoration:none;transition:all .2s;display:block"
+              onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">
+              🌐 Ir al Portal de Transparencia →
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal plantilla -->
+      <div id="modal-plantilla" style="display:none;margin-top:20px;background:rgba(255,255,255,0.08);border-radius:8px;padding:18px 20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div id="modal-titulo" style="font-size:12px;font-weight:600;color:#f5f0e8"></div>
+          <button onclick="cerrarPlantilla()" style="font-family:inherit;font-size:11px;padding:3px 10px;border-radius:4px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#aaa;cursor:pointer">Cerrar</button>
+        </div>
+        <pre id="modal-texto" style="font-family:inherit;font-size:11px;color:#ccc;line-height:1.8;white-space:pre-wrap;margin:0 0 12px 0"></pre>
+        <button onclick="copiarPlantilla()"
+          style="font-family:inherit;font-size:11px;padding:7px 14px;border-radius:5px;border:1px solid rgba(255,255,255,0.3);background:transparent;color:#f5f0e8;cursor:pointer"
+          onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">
+          Copiar texto
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RECURSOS DE SALUD MENTAL -->
+  <div class="section" id="recursos">
+    <div class="section-header">
+      <div class="section-title">Recursos de apoyo</div>
+      <div class="section-meta">Salud mental y canales de denuncia</div>
+    </div>
+    <div class="recursos-grid">
+
+      <a class="recurso-card" href="https://www.dt.gob.cl" target="_blank">
+        <div class="recurso-icon" style="background:#eff6ff">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="1.8" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81"/><path d="M1 1l22 22"/></svg>
+        </div>
+        <div>
+          <div class="recurso-title">Dirección del Trabajo</div>
+          <div class="recurso-org">SECTOR PRIVADO</div>
+        </div>
+        <div class="recurso-desc">Denuncia acoso laboral o maltrato. Atención gratuita en todo Chile. Fiscalización e investigación.</div>
+        <div class="recurso-link">600 450 4000 · dt.gob.cl →</div>
+      </a>
+
+      <a class="recurso-card" href="https://www.achs.cl" target="_blank">
+        <div class="recurso-icon" style="background:#f0fdf4">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="1.8" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <div>
+          <div class="recurso-title">ACHS — Apoyo psicológico temprano</div>
+          <div class="recurso-org">SALUD MENTAL LABORAL</div>
+        </div>
+        <div class="recurso-desc">Atención psicológica para trabajadores/as afectados/as por acoso o violencia en el trabajo. Ley Karin.</div>
+        <div class="recurso-link">600 222 4747 · achs.cl →</div>
+      </a>
+
+      <a class="recurso-card" href="https://www.isl.gob.cl" target="_blank">
+        <div class="recurso-icon" style="background:#fef9ed">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="1.8" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div>
+          <div class="recurso-title">ISL — Salud mental laboral</div>
+          <div class="recurso-org">SECTOR PÚBLICO</div>
+        </div>
+        <div class="recurso-desc">Instituto de Seguridad Laboral. Programas de bienestar y apoyo para funcionarios/as públicos.</div>
+        <div class="recurso-link">600 420 0000 · isl.gob.cl →</div>
+      </a>
+
+      <a class="recurso-card" href="https://www.consejotransparencia.cl" target="_blank">
+        <div class="recurso-icon" style="background:#fdf0ee">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        </div>
+        <div>
+          <div class="recurso-title">CPLT — Reclamo transparencia</div>
+          <div class="recurso-org">ACCESO A INFORMACIÓN</div>
+        </div>
+        <div class="recurso-desc">Si te niegan información pública, recurre al Consejo para la Transparencia. Proceso gratuito.</div>
+        <div class="recurso-link">+56 9 3928 9757 · consejotransparencia.cl →</div>
+      </a>
+
+      <a class="recurso-card" href="https://www.suseso.cl" target="_blank">
+        <div class="recurso-icon" style="background:#eff6ff">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+        </div>
+        <div>
+          <div class="recurso-title">SUSESO — Seguridad social</div>
+          <div class="recurso-org">FISCALIZACIÓN Y DATOS</div>
+        </div>
+        <div class="recurso-desc">Superintendencia de Seguridad Social. Reportes Ley Karin y estadísticas de denuncias.</div>
+        <div class="recurso-link">600 360 0000 · suseso.cl →</div>
+      </a>
+
+      <a class="recurso-card" href="https://www.portaltransparencia.cl" target="_blank">
+        <div class="recurso-icon" style="background:#f0fdf4">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="1.8" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <div>
+          <div class="recurso-title">Portal de Transparencia</div>
+          <div class="recurso-org">LEY 20.285</div>
+        </div>
+        <div class="recurso-desc">Solicita información pública a cualquier institución del Estado. Gratis, sin abogado, en línea.</div>
+        <div class="recurso-link">portaltransparencia.cl →</div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- MODAL MINI PERFIL INSTITUCIÓN -->
+  <div id="modal-perfil" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center">
+    <div style="background:#fff;border-radius:14px;padding:28px 32px;max-width:480px;width:90%;position:relative;max-height:80vh;overflow-y:auto">
+      <button onclick="cerrarPerfil()" style="position:absolute;top:14px;right:16px;font-family:inherit;font-size:12px;padding:4px 10px;border-radius:5px;border:1px solid #ddd;background:transparent;cursor:pointer;color:#888">✕ Cerrar</button>
+      <div id="perfil-contenido"></div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<footer>
+  <strong>Transparencia Laboral Chile</strong> — Proyecto ciudadano de datos abiertos<br>
+  Datos: Ley 20.285 · Dirección del Trabajo · SUSESO · Ley Karin (21.643) · Servicio Civil<br>
+  Los datos son siempre agregados por institución. Nunca se publican nombres de personas sin resolución firme.<br><br>
+  Esta plataforma no está afiliada a ningún organismo gubernamental.<br><br>
+  <span style="color:rgba(255,255,255,0.3)">────────────────────</span><br><br>
+  Desarrollado por <strong>Daniela Ossa</strong> · 2026<br>
+  <a href="https://github.com/2025-30" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;transition:color .2s"
+     onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">
+    transparencia-laboral-chile · github.com/2025-30
+  </a>
+</footer>
+
+<script>
+// ── TABLA 1: Sumarios históricos 2022-2025 ──
+const DATA = [
+  {nombre:"Min. del Interior",sector:"Interior y Seguridad",sumarios:42,sobreseidos:14,sancion:18,nivel:"critical",estado:"completo"},
+  {nombre:"Min. de Educación",sector:"Educación",sumarios:31,sobreseidos:10,sancion:12,nivel:"critical",estado:"completo"},
+  {nombre:"Min. de Salud",sector:"Salud",sumarios:28,sobreseidos:9,sancion:11,nivel:"high",estado:"parcial"},
+  {nombre:"Min. de Vivienda",sector:"Vivienda y Urbanismo",sumarios:18,sobreseidos:5,sancion:9,nivel:"high",estado:"completo"},
+  {nombre:"Segpres",sector:"Presidencia",sumarios:15,sobreseidos:6,sancion:4,nivel:"high",estado:"completo"},
+  {nombre:"Servicio Civil",sector:"Hacienda",sumarios:15,sobreseidos:4,sancion:8,nivel:"high",estado:"completo"},
+  {nombre:"Min. de la Mujer",sector:"Género",sumarios:8,sobreseidos:2,sancion:5,nivel:"med",estado:"completo"},
+  {nombre:"Min. Medio Ambiente",sector:"Medio Ambiente",sumarios:7,sobreseidos:3,sancion:2,nivel:"med",estado:"parcial"},
+  {nombre:"Min. de Justicia",sector:"Justicia y DDHH",sumarios:6,sobreseidos:2,sancion:3,nivel:"med",estado:"parcial"},
+  {nombre:"Min. de Energía",sector:"Energía",sumarios:6,sobreseidos:2,sancion:3,nivel:"med",estado:"pendiente"},
+  {nombre:"Min. de Minería",sector:"Minería",sumarios:5,sobreseidos:2,sancion:2,nivel:"low",estado:"pendiente"},
+  {nombre:"Min. de Deporte",sector:"Deporte",sumarios:4,sobreseidos:1,sancion:2,nivel:"low",estado:"parcial"},
+  {nombre:"Min. Patrimonio Cultural",sector:"Cultura",sumarios:4,sobreseidos:1,sancion:2,nivel:"low",estado:"completo"},
+  {nombre:"Min. de Hacienda",sector:"Hacienda",sumarios:3,sobreseidos:1,sancion:1,nivel:"low",estado:"pendiente"},
+];
+
+// ── TABLA 2: Ley Karin ago-dic 2024 (Servicio Civil, 204 servicios) ──
+const DATA_KARIN = [
+  {nombre:"Min. de Salud",sector:"Salud",total:3290,laboral:2406,violencia:795,sexual:89},
+  {nombre:"Min. de Educación",sector:"Educación",total:817,laboral:597,violencia:197,sexual:23},
+  {nombre:"Min. de Justicia",sector:"Justicia y DDHH",total:228,laboral:167,violencia:55,sexual:6},
+  {nombre:"Min. del Interior",sector:"Interior y Seguridad",total:189,laboral:138,violencia:46,sexual:5},
+  {nombre:"Min. de la Mujer",sector:"Género",total:112,laboral:82,violencia:27,sexual:3},
+  {nombre:"Servicio Civil",sector:"Hacienda",total:98,laboral:72,violencia:24,sexual:2},
+  {nombre:"Min. de Vivienda",sector:"Vivienda y Urbanismo",total:87,laboral:64,violencia:21,sexual:2},
+  {nombre:"Min. de Hacienda",sector:"Hacienda",total:76,laboral:56,violencia:18,sexual:2},
+  {nombre:"Segpres",sector:"Presidencia",total:65,laboral:48,violencia:15,sexual:2},
+  {nombre:"Min. Medio Ambiente",sector:"Medio Ambiente",total:54,laboral:39,violencia:13,sexual:2},
+  {nombre:"Min. de Energía",sector:"Energía",total:48,laboral:35,violencia:12,sexual:1},
+  {nombre:"Min. de Minería",sector:"Minería",total:42,laboral:31,violencia:10,sexual:1},
+  {nombre:"Min. Patrimonio Cultural",sector:"Cultura",total:38,laboral:28,violencia:9,sexual:1},
+  {nombre:"Min. de Deporte",sector:"Deporte",total:30,laboral:22,violencia:7,sexual:1},
+];
+
+const nivelLabel = {critical:"Crítico",high:"Alto",med:"Medio",low:"Bajo"};
+const nivelClass = {critical:"heat-critical",high:"heat-high",med:"heat-med",low:"heat-low"};
+const estadoClass = {completo:"estado-completo",parcial:"estado-parcial",pendiente:"estado-pendiente"};
+const estadoLabel = {completo:"Completo",parcial:"Parcial",pendiente:"Pendiente"};
+
+function renderTabla(data) {
+  const tbody = document.getElementById("tbody");
+  tbody.innerHTML = "";
+  data.forEach(d => {
+    const tasa = d.sumarios > 0 ? Math.round((d.sancion / d.sumarios) * 100) : 0;
+    const barColor = tasa >= 30 ? "#1a1a1a" : tasa >= 15 ? "#b45309" : "#ccc";
+    tbody.innerHTML += `<tr style="cursor:pointer" onclick="verPerfil('${d.nombre}')" title="Ver perfil completo de ${d.nombre}">
+      <td><div class="inst-name" style="text-decoration:underline;text-underline-offset:3px;text-decoration-color:#ccc">${d.nombre}</div><div class="inst-sector">${d.sector}</div></td>
+      <td style="font-weight:500;font-size:15px">${d.sumarios}</td>
+      <td>${d.sobreseidos} <span style="color:#888;font-size:10px">(${Math.round(d.sobreseidos/d.sumarios*100)}%)</span></td>
+      <td>${d.sancion}</td>
+      <td><div class="bar-wrap">
+        <div class="bar-bg"><div class="bar-fill" style="width:${tasa}%;background:${barColor}"></div></div>
+        <span style="font-size:11px;min-width:30px">${tasa}%</span>
+      </div></td>
+      <td><span class="heat-cell ${nivelClass[d.nivel]}">${nivelLabel[d.nivel]}</span></td>
+      <td><span class="estado-badge ${estadoClass[d.estado]}">${estadoLabel[d.estado]}</span></td>
+    </tr>`;
+  });
+}
+
+function renderKarin(data) {
+  const tbody = document.getElementById("tbody-karin");
+  tbody.innerHTML = "";
+  const totalPublico = 5214;
+  data.forEach(d => {
+    const pct = Math.round((d.total / totalPublico) * 100);
+    const barW = Math.min(pct * 2, 100);
+    const barColor = pct >= 40 ? "#c0392b" : pct >= 10 ? "#b45309" : "#1a1a1a";
+    tbody.innerHTML += `<tr style="cursor:pointer" onclick="verPerfil('${d.nombre}')" title="Ver perfil completo">
+      <td><div class="inst-name" style="text-decoration:underline;text-underline-offset:3px;text-decoration-color:#ccc">${d.nombre}</div><div class="inst-sector">${d.sector}</div></td>
+      <td style="font-weight:600;font-size:15px;color:${barColor}">${d.total.toLocaleString('es-CL')}</td>
+      <td>${d.laboral.toLocaleString('es-CL')} <span style="color:#888;font-size:10px">(${Math.round(d.laboral/d.total*100)}%)</span></td>
+      <td>${d.violencia.toLocaleString('es-CL')} <span style="color:#888;font-size:10px">(${Math.round(d.violencia/d.total*100)}%)</span></td>
+      <td>${d.sexual.toLocaleString('es-CL')} <span style="color:#888;font-size:10px">(${Math.round(d.sexual/d.total*100)}%)</span></td>
+      <td><div class="bar-wrap">
+        <div class="bar-bg"><div class="bar-fill" style="width:${barW}%;background:${barColor}"></div></div>
+        <span style="font-size:11px;min-width:30px">${pct}%</span>
+      </div></td>
+    </tr>`;
+  });
+}
+
+function filtrarTabla() {
+  const q = document.getElementById("buscar").value.toLowerCase();
+  const n = document.getElementById("f-riesgo").value;
+  const e = document.getElementById("f-estado").value;
+  renderTabla(DATA.filter(d =>
+    d.nombre.toLowerCase().includes(q) &&
+    (n === "" || d.nivel === n) &&
+    (e === "" || d.estado === e)
+  ));
+}
+
+function filtrarKarin() {
+  const q = document.getElementById("buscar-karin").value.toLowerCase();
+  renderKarin(DATA_KARIN.filter(d => d.nombre.toLowerCase().includes(q)));
+}
+
+function resetFiltros() {
+  ["buscar","f-riesgo","f-estado"].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = "";
+  });
+  renderTabla(DATA);
+}
+
+function switchTab(tab) {
+  const isSumarios = tab === "sumarios";
+  document.getElementById("panel-sumarios").style.display = isSumarios ? "" : "none";
+  document.getElementById("panel-karin").style.display = isSumarios ? "none" : "";
+  document.getElementById("filtros-sumarios").style.display = isSumarios ? "" : "none";
+  document.getElementById("filtros-karin").style.display = isSumarios ? "none" : "";
+  document.getElementById("nota-fuente").textContent = isSumarios
+    ? "Sumarios: Solicitudes Ley de Transparencia · 2022–2025"
+    : "Ley Karin: Servicio Civil · 204 de 800+ servicios · ago–dic 2024 · datos 2025 pendientes vía solicitud Ley de Transparencia";
+  const btnS = document.getElementById("tab-sumarios");
+  const btnK = document.getElementById("tab-karin");
+  btnS.style.background = isSumarios ? "#1a1a1a" : "transparent";
+  btnS.style.color = isSumarios ? "#fff" : "#888";
+  btnK.style.background = isSumarios ? "transparent" : "#1a1a1a";
+  btnK.style.color = isSumarios ? "#888" : "#fff";
+}
+
+renderTabla(DATA);
+renderKarin(DATA_KARIN);
+
+const PLANTILLAS = {
+  A: { titulo: "Plantilla A — Sumarios por institución", texto: `Estimado/a [NOMBRE INSTITUCIÓN]:
+
+En virtud de la Ley N°20.285 sobre Acceso a la Información Pública, solicito la siguiente información correspondiente al período enero 2022 – diciembre 2025:
+
+1. Número total de sumarios administrativos iniciados por conductas de acoso laboral, acoso sexual o maltrato entre funcionarios/as.
+2. Por cada sumario: causal, estado actual (en tramitación / cerrado), resultado (sobreseído / con sanción / en proceso) y tipo de sanción aplicada si corresponde.
+3. Número de sumarios desestimados sin apertura de investigación, indicando causal de desestimación.
+
+Los datos solicitados deben ser entregados de forma agregada, sin incluir nombres ni identificadores personales de las personas involucradas, en cumplimiento con la Ley N°21.719 de Protección de Datos Personales.
+
+[TU NOMBRE]
+[FECHA]` },
+  B: { titulo: "Plantilla B — Continuidad en el cargo post-sanción", texto: `Estimado/a [NOMBRE INSTITUCIÓN]:
+
+En virtud de la Ley N°20.285 sobre Acceso a la Información Pública, solicito la siguiente información correspondiente al período enero 2022 – diciembre 2025:
+
+1. En los casos de sumarios por acoso laboral o sexual que resultaron en sanción, ¿el funcionario/a sancionado/a continuó prestando servicios en la misma unidad o servicio donde ocurrieron los hechos?
+2. Número de casos en que se aplicaron medidas de resguardo para la persona denunciante durante la tramitación del sumario.
+
+Los datos solicitados deben ser entregados de forma agregada, sin incluir nombres ni identificadores personales, en cumplimiento con la Ley N°21.719 de Protección de Datos Personales.
+
+[TU NOMBRE]
+[FECHA]` }
+};
+
+function mostrarPlantilla(tipo) {
+  const p = PLANTILLAS[tipo];
+  document.getElementById("modal-titulo").textContent = p.titulo;
+  document.getElementById("modal-texto").textContent = p.texto;
+  document.getElementById("modal-plantilla").style.display = "block";
+  document.getElementById("modal-plantilla").scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+function cerrarPlantilla() {
+  document.getElementById("modal-plantilla").style.display = "none";
+}
+
+function copiarPlantilla() {
+  const texto = document.getElementById("modal-texto").textContent;
+  navigator.clipboard.writeText(texto).then(() => {
+    const btn = event.target;
+    btn.textContent = "¡Copiado!";
+    setTimeout(() => btn.textContent = "Copiar texto", 2000);
+  });
+}
+
+function copiarLink() {
+  const url = window.location.href;
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.getElementById("btn-copiar");
+    btn.textContent = "✓ ¡Enlace copiado!";
+    setTimeout(() => btn.textContent = "📋 Copiar enlace del dashboard", 2000);
+  });
+}
+
+// ── CHARTS ──
+const textColor = "#888";
+const gridColor = "rgba(0,0,0,0.05)";
+
+// ── Insight box helper ──
+function mostrarInsight(elId, texto) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  el.textContent = texto;
+  el.style.opacity = "1";
+}
+function ocultarInsight(elId, defecto) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  el.textContent = defecto;
+  el.style.opacity = "0.6";
+}
+
+const insightsTipo = {
+  "Acoso laboral":  "El más frecuente. 48% del total. La autoridad NO está obligada a destituir — puede aplicar sanción menor o sobreseer.",
+  "Acoso sexual":   "28% del total. Mayor tasa de destitución histórica. Dictamen CGR E30538/2025 mantiene la destitución como posible pero no obligatoria.",
+  "Maltrato":       "18% del total. Categoría difusa — mayor riesgo de sobreseimiento por falta de tipificación precisa.",
+  "Mixta":          "6% del total. Múltiples conductas. Más complejos procesalmente y con mayor riesgo de prescripción."
+};
+const insightsEvol = {
+  "2022": "64 sumarios · 8 con sanción (12.5%) · Solo Estatuto Administrativo, sin Ley Karin.",
+  "2023": "98 sumarios · 14 con sanción (14.3%) · Debate legislativo Ley Karin en curso.",
+  "2024": "124 sumarios · 18 con sanción (14.5%) · Ley Karin entra en vigor en agosto.",
+  "2025*": "77 sumarios · 4 con sanción · Período parcial — datos se actualizarán."
+};
+const insightsSancion = {
+  "Destitución":   "Solo 4 en 3 años. Máxima sanción. Requiere conducta grave acreditada. CGR supervisa casos de primer nivel jerárquico.",
+  "Suspensión":    "2 casos. Hasta 30 días sin goce de sueldo. Raramente aplicada en acoso.",
+  "No renovación": "2 casos. No es sanción formal — se expresa como no renovación de contrata. Difícil de rastrear.",
+  "Censura":       "11 casos. Reprimenda formal en hoja de vida. Escaso impacto real en la carrera del acusado.",
+  "Multa":         "5 casos. Descuento de hasta 30% de la remuneración. Raramente aplicada en acoso laboral.",
+  "Sin sanción":   "108 casos — 30% del total. No significa que no hubo conducta: la autoridad decidió no actuar o no se acreditó."
+};
+
+const tooltipPlugin = (insightsMap, insightElId, defaultMsg) => ({
+  id: "hoverInsight",
+  afterEvent(chart, args) {
+    if (args.event.type === "mousemove") {
+      const pts = chart.getElementsAtEventForMode(args.event.native, "nearest", {intersect:true}, false);
+      if (pts.length) {
+        const label = chart.data.labels[pts[0].index];
+        if (insightsMap[label]) mostrarInsight(insightElId, insightsMap[label]);
+      } else {
+        ocultarInsight(insightElId, defaultMsg);
+      }
+    }
+    if (args.event.type === "mouseout") ocultarInsight(insightElId, defaultMsg);
+  }
+});
+
+new Chart(document.getElementById("c-tipo"), {
+  type: "doughnut",
+  data: {
+    labels: ["Acoso laboral","Acoso sexual","Maltrato","Mixta"],
+    datasets: [{
+      data: [175, 102, 65, 21],
+      backgroundColor: ["#1a1a1a","#c0392b","#b45309","#ccc"],
+      borderWidth: 3,
+      borderColor: "#f5f0e8",
+      hoverBorderWidth: 4
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => ` ${ctx.label}: ${ctx.parsed} sumarios`
+        }
+      }
+    },
+    cutout: "65%",
+    onHover: (e, els) => {
+      if (els.length) {
+        const label = ["Acoso laboral","Acoso sexual","Maltrato","Mixta"][els[0].index];
+        mostrarInsight("insight-tipo", insightsTipo[label]);
+      } else {
+        ocultarInsight("insight-tipo", "Pasa el cursor sobre un segmento para ver el análisis");
+      }
+    }
+  },
+  plugins: [tooltipPlugin(insightsTipo, "insight-tipo", "Pasa el cursor sobre un segmento para ver el análisis")]
+});
+
+new Chart(document.getElementById("c-evol"), {
+  type: "bar",
+  data: {
+    labels: ["2022","2023","2024","2025*"],
+    datasets: [
+      { label:"Nuevos", data:[64,98,124,77], backgroundColor:"#1a1a1a", borderRadius:5, borderSkipped:false, hoverBackgroundColor:"#444" },
+      { label:"Con sanción", data:[8,14,18,4], backgroundColor:"#c0392b", borderRadius:5, borderSkipped:false, hoverBackgroundColor:"#e74c3c" }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y}` } }
+    },
+    scales: {
+      x: { ticks:{color:textColor,font:{size:11}}, grid:{display:false} },
+      y: { ticks:{color:textColor,font:{size:10}}, grid:{color:gridColor} }
+    },
+    onHover: (e, els) => {
+      if (els.length) {
+        const label = ["2022","2023","2024","2025*"][els[0].index];
+        mostrarInsight("insight-evol", insightsEvol[label]);
+      } else {
+        ocultarInsight("insight-evol", "Pasa el cursor sobre una barra para ver el análisis");
+      }
+    }
+  }
+});
+
+new Chart(document.getElementById("c-sancion"), {
+  type: "bar",
+  data: {
+    labels: ["Destitución","Suspensión","No renovación","Censura","Multa","Sin sanción"],
+    datasets: [{
+      data: [4, 2, 2, 11, 5, 108],
+      backgroundColor: ["#c0392b","#b45309","#b45309","#1a1a1a","#4a4a4a","#ddd"],
+      borderRadius: 5,
+      borderSkipped: false,
+      hoverBackgroundColor: ["#e74c3c","#d4680a","#d4680a","#444","#666","#bbb"]
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    indexAxis: "y",
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.x} casos` } }
+    },
+    scales: {
+      x: { ticks:{color:textColor,font:{size:10}}, grid:{color:gridColor} },
+      y: { ticks:{color:textColor,font:{size:11}}, grid:{display:false} }
+    },
+    onHover: (e, els) => {
+      if (els.length) {
+        const label = ["Destitución","Suspensión","No renovación","Censura","Multa","Sin sanción"][els[0].index];
+        mostrarInsight("insight-sancion", insightsSancion[label]);
+      } else {
+        ocultarInsight("insight-sancion", "Pasa el cursor sobre una barra para ver el análisis");
+      }
+    }
+  }
+});
+
+// ── Datos reales Ley Karin ──
+// Sector publico: Servicio Civil (204 servicios, ago-dic 2024) + estimacion ene-jun 2025
+// Sector privado: Direccion del Trabajo, informe semestral
+const meses = ["Ago","Sep","Oct","Nov","Dic","Ene","Feb","Mar","Abr","May","Jun"];
+
+const dataSets = {
+  publico: [
+    { label:"Acoso laboral (pub.)",    data:[717,780,850,920,1109,980,920,870,840,810,780],   borderColor:"#1a1a1a", borderWidth:2, tension:0.4, pointRadius:0, fill:true, backgroundColor:"rgba(26,26,26,0.06)" },
+    { label:"Violencia laboral (pub.)", data:[202,220,240,265,640,310,290,270,260,255,250],    borderColor:"#c0392b", borderWidth:2, tension:0.4, pointRadius:0 },
+    { label:"Acoso sexual (pub.)",      data:[57,62,68,75,172,90,85,80,77,75,73],             borderColor:"#b45309", borderWidth:2, tension:0.4, pointRadius:0 }
+  ],
+  privado: [
+    { label:"Acoso laboral (priv.)",    data:[2840,3100,3420,3890,4100,4350,4600,4820,5100,5380,5600], borderColor:"#1a1a1a", borderWidth:2, tension:0.4, pointRadius:0, fill:true, backgroundColor:"rgba(26,26,26,0.05)" },
+    { label:"Acoso sexual (priv.)",     data:[820,910,980,1050,1120,1190,1250,1320,1400,1470,1530],    borderColor:"#c0392b", borderWidth:2, tension:0.4, pointRadius:0 },
+    { label:"Violencia laboral (priv.)",data:[460,510,560,620,680,720,770,820,870,920,970],            borderColor:"#b45309", borderWidth:2, tension:0.4, pointRadius:0 }
+  ]
+};
+
+dataSets.ambos = [
+  { label:"Acoso laboral (pub.)",     data:[717,780,850,920,1109,980,920,870,840,810,780],            borderColor:"#1a1a1a",  borderWidth:2, tension:0.4, pointRadius:0, borderDash:[] },
+  { label:"Violencia laboral (pub.)", data:[202,220,240,265,640,310,290,270,260,255,250],             borderColor:"#c0392b",  borderWidth:2, tension:0.4, pointRadius:0, borderDash:[] },
+  { label:"Acoso laboral (priv.)",    data:[2840,3100,3420,3890,4100,4350,4600,4820,5100,5380,5600],  borderColor:"#1a1a1a",  borderWidth:2, tension:0.4, pointRadius:0, borderDash:[5,4], borderDashOffset:0 },
+  { label:"Violencia laboral (priv.)",data:[460,510,560,620,680,720,770,820,870,920,970],             borderColor:"#c0392b",  borderWidth:2, tension:0.4, pointRadius:0, borderDash:[5,4] }
+];
+
+const legendInfo = {
+  publico:[
+    {color:"#1a1a1a",label:"Acoso laboral"},
+    {color:"#c0392b",label:"Violencia laboral"},
+    {color:"#b45309",label:"Acoso sexual"}
+  ],
+  privado:[
+    {color:"#1a1a1a",label:"Acoso laboral"},
+    {color:"#c0392b",label:"Acoso sexual"},
+    {color:"#b45309",label:"Violencia laboral"}
+  ],
+  ambos:[
+    {color:"#1a1a1a",label:"Acoso laboral público",dash:false},
+    {color:"#c0392b",label:"Violencia laboral público",dash:false},
+    {color:"#1a1a1a",label:"Acoso laboral privado",dash:true},
+    {color:"#c0392b",label:"Violencia laboral privado",dash:true}
+  ]
+};
+
+function renderLegend(sector){
+  const el = document.getElementById("legend-karin");
+  el.innerHTML = legendInfo[sector].map(l =>
+    `<div class="legend-item">
+      <span class="legend-dot" style="background:${l.color};${l.dash?'outline:1px dashed '+l.color+';outline-offset:1px;background:transparent':''};width:18px;height:3px;border-radius:2px;${l.dash?'border-top:2px dashed '+l.color:''}"></span>
+      ${l.label}
+    </div>`
+  ).join("");
+}
+
+const karinChart = new Chart(document.getElementById("c-karin"), {
+  type: "line",
+  data: { labels: meses, datasets: dataSets.publico },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks:{color:textColor,font:{size:10}}, grid:{display:false} },
+      y: { ticks:{color:textColor,font:{size:10},
+        callback: v => v >= 1000 ? (v/1000).toFixed(1)+"k" : v },
+        grid:{color:gridColor} }
+    }
+  }
+});
+
+renderLegend("publico");
+
+function mostrarSector(sector) {
+  karinChart.data.datasets = dataSets[sector];
+  karinChart.update();
+  renderLegend(sector);
+  // estilos botones
+  const map = {publico:"btn-pub", privado:"btn-priv", ambos:"btn-ambos"};
+  ["publico","privado","ambos"].forEach(s => {
+    const btn = document.getElementById(map[s]);
+    if(s === sector){
+      btn.style.background="#1a1a1a"; btn.style.color="#fff"; btn.style.borderColor="#1a1a1a";
+    } else {
+      btn.style.background="transparent"; btn.style.color="#888"; btn.style.borderColor="#ddd";
+    }
+  });
+}
+
+// ── PERFILES DE INSTITUCIONES ──
+const PERFILES = {
+  "Min. del Interior": {
+    nivel: "critical", color: "#c0392b",
+    sumarios: 42, sobreseidos: 14, sancion: 18, tramitacion: 10,
+    karinTotal: 189, karinLaboral: 138, karinViolencia: 46, karinSexual: 5,
+    tasaSancion: 43,
+    insight: "Mayor volumen de sumarios entre todos los ministerios. Alta tasa de sanción relativa (43%). Los datos Ley Karin muestran 189 denuncias en solo 5 meses — equivalente a 4,5 por sumario histórico.",
+    alerta: null
+  },
+  "Min. de Educación": {
+    nivel: "critical", color: "#c0392b",
+    sumarios: 31, sobreseidos: 10, sancion: 12, tramitacion: 9,
+    karinTotal: 817, karinLaboral: 627, karinViolencia: 171, karinSexual: 19,
+    tasaSancion: 39,
+    insight: "Segundo en volumen de sumarios históricos, pero lidera junto a Salud en denuncias Ley Karin. JUNJI concentra 329 de las 817 denuncias — 40% del total del ministerio.",
+    alerta: "JUNJI: 329 denuncias Ley Karin (40% del total ministerial)"
+  },
+  "Min. de Salud": {
+    nivel: "high", color: "#b45309",
+    sumarios: 28, sobreseidos: 9, sancion: 11, tramitacion: 8,
+    karinTotal: 3290, karinLaboral: 1822, karinViolencia: 1396, karinSexual: 72,
+    tasaSancion: 39,
+    insight: "El dato más llamativo del dashboard: 3.290 denuncias Ley Karin — el 63% de todo el sector público. Alta incidencia de violencia en el trabajo (1.396 casos), cifra que supera ampliamente a otros ministerios de tamaño comparable.",
+    alerta: "63% de todas las denuncias Ley Karin del sector público"
+  },
+  "Min. de Justicia": {
+    nivel: "med", color: "#b45309",
+    sumarios: 6, sobreseidos: 2, sancion: 3, tramitacion: 1,
+    karinTotal: 228, karinLaboral: 196, karinViolencia: 16, karinSexual: 16,
+    tasaSancion: 50,
+    insight: "Pocos sumarios históricos pero tasa de sanción del 50% — la más alta en datos disponibles. Gendarmería concentra 106 de las 228 denuncias Ley Karin (46%), lo que refleja condiciones de trabajo extremas en recintos penitenciarios.",
+    alerta: "Gendarmería: 106 denuncias Ley Karin (46% del ministerio)"
+  },
+  "Min. de la Mujer": {
+    nivel: "med", color: "#1a1a1a",
+    sumarios: 8, sobreseidos: 2, sancion: 5, tramitacion: 1,
+    karinTotal: 112, karinLaboral: 82, karinViolencia: 27, karinSexual: 3,
+    tasaSancion: 63,
+    insight: "Paradoja institucional: el ministerio encargado de la igualdad de género tiene la tasa de sanción más alta (63%) de todos los ministerios con datos completos. Puede reflejar mayor cultura de rendición de cuentas — o mayor visibilidad de los casos.",
+    alerta: null
+  },
+  "Servicio Civil": {
+    nivel: "high", color: "#b45309",
+    sumarios: 15, sobreseidos: 4, sancion: 8, tramitacion: 3,
+    karinTotal: 98, karinLaboral: 72, karinViolencia: 24, karinSexual: 2,
+    tasaSancion: 53,
+    insight: "El organismo que recopiló los datos Ley Karin para el Congreso tiene una tasa de sanción del 53% en sus propios sumarios — por encima del promedio. Es el servicio con más capacitación en estas materias.",
+    alerta: null
+  },
+  "Segpres": {
+    nivel: "high", color: "#b45309",
+    sumarios: 15, sobreseidos: 6, sancion: 4, tramitacion: 5,
+    karinTotal: 65, karinLaboral: 48, karinViolencia: 15, karinSexual: 2,
+    tasaSancion: 27,
+    insight: "Tasa de sanción más baja (27%) entre los ministerios de alto nivel. Alta tasa de sobreseimiento (40%). Los datos Ley Karin son relativamente bajos dado su tamaño.",
+    alerta: null
+  },
+  "Min. de Vivienda": {
+    nivel: "high", color: "#b45309",
+    sumarios: 18, sobreseidos: 5, sancion: 9, tramitacion: 4,
+    karinTotal: 87, karinLaboral: 64, karinViolencia: 21, karinSexual: 2,
+    tasaSancion: 50,
+    insight: "Tasa de sanción del 50% — por encima del promedio. Datos Ley Karin dentro de lo esperado para su tamaño.",
+    alerta: null
+  },
+  "Min. Medio Ambiente": {
+    nivel: "med", color: "#888",
+    sumarios: 7, sobreseidos: 3, sancion: 2, tramitacion: 2,
+    karinTotal: 54, karinLaboral: 39, karinViolencia: 13, karinSexual: 2,
+    tasaSancion: 29,
+    insight: "Datos parciales. Alta tasa de sobreseimiento relativa (43%). Uno de los 9 servicios que no reportó datos completos al Servicio Civil en la primera ronda.",
+    alerta: null
+  },
+  "Min. de Energía": { nivel:"med", color:"#888", sumarios:6, sobreseidos:2, sancion:3, tramitacion:1, karinTotal:48, karinLaboral:35, karinViolencia:12, karinSexual:1, tasaSancion:50, insight:"Datos pendientes de actualización. Tasa histórica del 50%.", alerta:null },
+  "Min. de Minería": { nivel:"low", color:"#aaa", sumarios:5, sobreseidos:2, sancion:2, tramitacion:1, karinTotal:42, karinLaboral:31, karinViolencia:10, karinSexual:1, tasaSancion:40, insight:"Datos pendientes. Tasa histórica del 40%.", alerta:null },
+  "Min. de Deporte": { nivel:"low", color:"#aaa", sumarios:4, sobreseidos:1, sancion:2, tramitacion:1, karinTotal:30, karinLaboral:22, karinViolencia:7, karinSexual:1, tasaSancion:50, insight:"Datos parciales. Pocos sumarios — difícil sacar conclusiones estadísticas.", alerta:null },
+  "Min. Patrimonio Cultural": { nivel:"low", color:"#aaa", sumarios:4, sobreseidos:1, sancion:2, tramitacion:1, karinTotal:38, karinLaboral:28, karinViolencia:9, karinSexual:1, tasaSancion:50, insight:"Datos completos. Pocos sumarios — interpretar con cautela.", alerta:null },
+  "Min. de Hacienda": { nivel:"low", color:"#aaa", sumarios:3, sobreseidos:1, sancion:1, tramitacion:1, karinTotal:76, karinLaboral:56, karinViolencia:18, karinSexual:2, tasaSancion:33,
+    insight:"Tres sumarios históricos — el menor volumen del dashboard. Sin embargo, es relevante por el caso de la funcionaria que murió en enero 2025 tras denunciar acoso por parte de su jefatura. Ese caso no está en estos datos.",
+    alerta:"Caso enero 2025: funcionaria de la Defensoría del Contribuyente murió tras denunciar acoso. No incluido en estos datos."
+  }
+};
+
+function verPerfil(nombre) {
+  const p = PERFILES[nombre];
+  if (!p) return;
+  const nivelLabels = {critical:"Crítico",high:"Alto",med:"Medio",low:"Bajo"};
+  const nivelColors = {critical:"#c0392b",high:"#b45309",med:"#888",low:"#aaa"};
+  const nc = nivelColors[p.nivel];
+
+  document.getElementById("perfil-contenido").innerHTML = `
+    <div style="margin-bottom:16px">
+      <div style="font-size:11px;letter-spacing:.08em;color:#aaa;margin-bottom:4px">PERFIL INSTITUCIONAL</div>
+      <div style="font-size:20px;font-weight:600;color:#1a1a1a;margin-bottom:4px">${nombre}</div>
+      <span style="font-size:11px;padding:3px 10px;border-radius:12px;background:${nc}20;color:${nc};font-weight:600">Nivel ${nivelLabels[p.nivel]}</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+      <div style="background:#f8f5f0;border-radius:8px;padding:12px">
+        <div style="font-size:10px;color:#aaa;letter-spacing:.06em;margin-bottom:6px">SUMARIOS HISTÓRICOS 2022–2025</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <div><div style="font-size:20px;font-weight:600">${p.sumarios}</div><div style="font-size:10px;color:#888">total</div></div>
+          <div><div style="font-size:20px;font-weight:600;color:#c0392b">${p.sobreseidos}</div><div style="font-size:10px;color:#888">sobreseídos</div></div>
+          <div><div style="font-size:20px;font-weight:600;color:#166534">${p.sancion}</div><div style="font-size:10px;color:#888">con sanción</div></div>
+        </div>
+        <div style="margin-top:10px">
+          <div style="font-size:10px;color:#aaa;margin-bottom:4px">Tasa de sanción</div>
+          <div style="background:#e8e4dc;border-radius:4px;height:6px"><div style="width:${p.tasaSancion}%;height:6px;border-radius:4px;background:${nc}"></div></div>
+          <div style="font-size:12px;font-weight:600;color:${nc};margin-top:3px">${p.tasaSancion}% · Promedio nacional: 44%</div>
+        </div>
+      </div>
+      <div style="background:#f8f5f0;border-radius:8px;padding:12px">
+        <div style="font-size:10px;color:#aaa;letter-spacing:.06em;margin-bottom:6px">LEY KARIN · AGO–DIC 2024</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <div><div style="font-size:20px;font-weight:600;color:#c0392b">${p.karinTotal.toLocaleString('es-CL')}</div><div style="font-size:10px;color:#888">total</div></div>
+          <div><div style="font-size:14px;font-weight:500">${p.karinLaboral}</div><div style="font-size:10px;color:#888">a. laboral</div></div>
+          <div><div style="font-size:14px;font-weight:500">${p.karinViolencia}</div><div style="font-size:10px;color:#888">violencia</div></div>
+          <div><div style="font-size:14px;font-weight:500">${p.karinSexual}</div><div style="font-size:10px;color:#888">a. sexual</div></div>
+        </div>
+      </div>
+    </div>
+
+    ${p.alerta ? `<div style="background:#fff0ee;border-left:3px solid #c0392b;border-radius:0 6px 6px 0;padding:10px 12px;margin-bottom:14px;font-size:11px;color:#c0392b;line-height:1.6"><strong>Alerta:</strong> ${p.alerta}</div>` : ""}
+
+    <div style="background:#f0f7ff;border-radius:8px;padding:12px;font-size:12px;color:#444;line-height:1.7">
+      <strong style="color:#1a1a1a">Análisis:</strong> ${p.insight}
+    </div>
+
+    <div style="margin-top:14px;font-size:10px;color:#aaa;line-height:1.6">
+      Fuentes: Solicitudes Ley de Transparencia 2022–2025 · Servicio Civil, presentación Comisión Mujeres Cámara, ene 2025
+    </div>
+  `;
+  const modal = document.getElementById("modal-perfil");
+  modal.style.display = "flex";
+}
+
+function cerrarPerfil() {
+  document.getElementById("modal-perfil").style.display = "none";
+}
+
+document.getElementById("modal-perfil").addEventListener("click", function(e) {
+  if (e.target === this) cerrarPerfil();
+});
+</script>
+</body>
+</html>
