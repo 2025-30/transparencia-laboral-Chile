@@ -1,3 +1,27 @@
+# 🔍 Transparencia Laboral Chile
+
+**Autora:** Daniela Andrea Ossa Claveria
+**Año:** 2025
+**LinkedIn:** linkedin.com/in/[tu perfil]
+
+---
+
+## ¿Qué es este proyecto?
+
+Dashboard interactivo de datos abiertos sobre sumarios 
+por acoso laboral y maltrato en el sector público 
+chileno entre 2022 y 2025.
+
+---
+
+## ¿Por qué existe?
+
+Los datos existían pero estaban dispersos e inaccesibles. 
+Este proyecto los ordena, visualiza y pone al alcance 
+de cualquier persona.
+
+---
+
 ## ¿Qué muestra?
 
 - Total de sumarios por año y ministerio
@@ -7,13 +31,14 @@
 
 ---
 
-## ⚠️ Nota importante sobre los datos
+## Datos
 
-Un caso **sobreseído** significa que fue cerrado sin sanción.
-Esto no necesariamente implica inocencia — puede reflejar:
+Fuente: Datos públicos oficiales Chile 2022-2025
 
-- Falta de pruebas suficientes
-- Limitaciones del proceso investigativo
-- Fallas del sistema en proteger a la víctima
+---
 
-Esta distinción es clave para interpretar correctamente los datos.
+## Contacto
+
+📧 https://www.linkedin.com/in/daniela-ossa-claveria-72b4a2106/
+
+© 2025 Daniela Andrea Ossa Claveria
