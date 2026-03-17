@@ -2,7 +2,7 @@
 
 **Autora:** Daniela Andrea Ossa Claveria
 **Año:** 2025
-**LinkedIn:** linkedin.com/in/[tu perfil]
+**LinkedIn:** https://www.linkedin.com/in/daniela-ossa-claveria-72b4a2106/
 
 ---
 
