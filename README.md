@@ -31,6 +31,21 @@ de cualquier persona.
 
 ---
 
+## ⚠️ Nota importante sobre los datos
+
+Un caso **sobreseído** significa que fue cerrado sin sanción.
+Esto no necesariamente implica inocencia — puede reflejar:
+
+- Falta de pruebas suficientes
+- Limitaciones del proceso investigativo
+- Fallas del sistema en proteger a la víctima
+
+Esta distinción es clave para interpretar correctamente los datos.
+
+---
+
+
+
 ## Datos
 
 Fuente: Datos públicos oficiales Chile 2022-2025
